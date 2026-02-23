@@ -8,449 +8,555 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+    </style>
 </head>
 <body>
     <div id="root"></div>
+    
     <script type="text/babel">
-        // PASTE THE ENTIRE REACT CODE FROM THE ARTIFACT HERE
-        import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Phone, MapPin, Code, Briefcase, Award, GraduationCap, Users, ChevronRight, ChevronLeft, Menu, X } from 'lucide-react';
+        const { useState, useEffect } = React;
 
-const Portfolio = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+        // Lucide React Icons (inline SVG components)
+        const Github = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+        );
 
-  const pages = ['home', 'about', 'experience', 'projects', 'contact'];
+        const Linkedin = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+        );
 
-  const navigateToPage = (index) => {
-    if (index >= 0 && index < pages.length && index !== currentPage) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentPage(index);
-        setIsTransitioning(false);
-      }, 300);
-      setIsMenuOpen(false);
-    }
-  };
+        const Mail = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+        );
 
-  const nextPage = () => {
-    if (currentPage < pages.length - 1) {
-      navigateToPage(currentPage + 1);
-    }
-  };
+        const Phone = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+        );
 
-  const prevPage = () => {
-    if (currentPage > 0) {
-      navigateToPage(currentPage - 1);
-    }
-  };
+        const MapPin = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+        );
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowRight') nextPage();
-      if (e.key === 'ArrowLeft') prevPage();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentPage]);
+        const Code = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+        );
 
-  const skills = {
-    technical: ['Python', 'Java', 'C', 'React.js', 'JavaScript', 'HTML/CSS', 'SQL', 'Docker'],
-    dataScience: ['Pandas', 'NumPy', 'Matplotlib', 'Jupyter Notebook', 'Machine Learning'],
-    tools: ['JIRA', 'PowerBI', 'GitHub', 'Eclipse IDE', 'Adobe Photoshop']
-  };
+        const GraduationCap = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+        );
 
-  const experiences = [
-    {
-      title: 'UI/UX Designer Intern',
-      company: 'Mita IT Automations',
-      period: '07/2025 – 07/2025',
-      description: 'Designed with Adobe Photoshop, developed frontend using HTML, CSS, JavaScript, and Bootstrap',
-      color: 'from-purple-500 to-pink-500'
-    },
-    {
-      title: 'Front End Developer Intern',
-      company: 'MicroIT Solutions',
-      period: '05/2025 – 06/2025',
-      description: 'Implemented supervised learning models and worked with Support Vector Machines (SVMs)',
-      color: 'from-blue-500 to-cyan-500'
-    },
-    {
-      title: 'Data Science Intern',
-      company: 'Prodigy Infotech',
-      period: '08/2024 – 08/2024',
-      description: 'Developed predictive models and conducted exploratory data analysis on large datasets',
-      color: 'from-emerald-500 to-teal-500'
-    }
-  ];
+        const Users = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+        );
 
-  const projects = [
-    {
-      title: 'AI-Powered Grocery Assistant',
-      description: 'An AI assistant for visually impaired users to shop independently using smartphone camera for item detection and recognition.',
-      tech: ['Python', 'Machine Learning', 'Computer Vision'],
-      gradient: 'from-violet-600 to-indigo-600'
-    },
-    {
-      title: 'Hotel Management System',
-      description: 'Java Swing application built in Eclipse IDE to streamline hotel operations including check-in/out, booking, billing, room availability, staff management, and report generation.',
-      tech: ['Java', 'Swing', 'Eclipse IDE'],
-      gradient: 'from-orange-500 to-red-500'
-    },
-    {
-      title: 'Restaurant Management System',
-      description: 'Comprehensive web-based application using HTML, CSS, PHP, and MySQL running on XAMPP. Automates menu display, food ordering, customization, billing, customer feedback, and staff management.',
-      tech: ['HTML', 'CSS', 'PHP', 'MySQL', 'XAMPP'],
-      gradient: 'from-emerald-500 to-teal-500'
-    }
-  ];
+        const ChevronRight = () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        );
 
-  return (
-    <div className="h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
-      {/* Navigation Bar */}
-      <nav className="fixed top-0 w-full z-50 bg-slate-900/95 backdrop-blur-md shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Abinaya M
-            </div>
-            
-            {/* Desktop Menu */}
-            <div className="hidden md:flex space-x-8">
-              {pages.map((page, index) => (
-                <button
-                  key={page}
-                  onClick={() => navigateToPage(index)}
-                  className={`capitalize hover:text-purple-400 transition-colors ${currentPage === index ? 'text-purple-400 font-semibold' : ''}`}
-                >
-                  {page}
-                </button>
-              ))}
-            </div>
+        const ChevronLeft = () => (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        );
 
-            {/* Mobile Menu Button */}
-            <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X /> : <Menu />}
-            </button>
-          </div>
-        </div>
+        const ChevronDown = () => (
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        );
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-slate-900/95 backdrop-blur-md">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {pages.map((page, index) => (
-                <button
-                  key={page}
-                  onClick={() => navigateToPage(index)}
-                  className={`block w-full text-left px-3 py-2 capitalize hover:bg-purple-900/50 rounded-md ${currentPage === index ? 'bg-purple-900/50 text-purple-400' : ''}`}
-                >
-                  {page}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </nav>
+        const Menu = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        );
 
-      {/* Page Content */}
-      <div className={`h-full pt-16 transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-        {/* Home Page */}
-        {currentPage === 0 && (
-          <div className="h-full flex items-center justify-center px-4 relative overflow-hidden">
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute w-96 h-96 bg-purple-500/30 rounded-full blur-3xl top-20 left-20 animate-pulse"></div>
-              <div className="absolute w-96 h-96 bg-pink-500/30 rounded-full blur-3xl bottom-20 right-20 animate-pulse" style={{animationDelay: '1s'}}></div>
-            </div>
-            
-            <div className="max-w-4xl text-center relative z-10">
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-                Hi, I'm Abinaya M
-              </h1>
-              <p className="text-xl md:text-2xl text-gray-300 mb-8">
-                Data Science Enthusiast | Front-End Developer | UI/UX Designer
-              </p>
-              <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
-                Passionate about leveraging technology to solve real-world problems through data-driven insights and intuitive user experiences
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <button 
-                  onClick={() => navigateToPage(3)}
-                  className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all transform hover:scale-105"
-                >
-                  View My Work
-                </button>
-                <button 
-                  onClick={() => navigateToPage(4)}
-                  className="px-8 py-3 border-2 border-purple-400 rounded-full font-semibold hover:bg-purple-400/20 transition-all"
-                >
-                  Get In Touch
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        const X = () => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        );
 
-        {/* About Page */}
-        {currentPage === 1 && (
-          <div className="h-full overflow-y-auto px-4 py-8">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                About Me
-              </h2>
-              
-              <div className="grid md:grid-cols-1 gap-8 mb-12">
-                <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-8 border border-purple-500/20 hover:border-purple-500/40 transition-all transform hover:scale-105">
-                  <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                    <GraduationCap className="text-purple-400" />
-                    Education
-                  </h3>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="font-semibold text-purple-300">B.E. Computer Science Engineering</p>
-                      <p className="text-gray-400">M Kumarasamy College of Engineering</p>
-                      <p className="text-sm text-gray-500">Expected 2027 | CGPA: 8.9</p>
+        const Portfolio = () => {
+            const [currentPage, setCurrentPage] = useState(0);
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [isTransitioning, setIsTransitioning] = useState(false);
+
+            const pages = ['home', 'about', 'experience', 'projects', 'contact'];
+
+            const navigateToPage = (index) => {
+                if (index >= 0 && index < pages.length && index !== currentPage) {
+                    setIsTransitioning(true);
+                    setTimeout(() => {
+                        setCurrentPage(index);
+                        setIsTransitioning(false);
+                    }, 300);
+                    setIsMenuOpen(false);
+                }
+            };
+
+            const nextPage = () => {
+                if (currentPage < pages.length - 1) {
+                    navigateToPage(currentPage + 1);
+                }
+            };
+
+            const prevPage = () => {
+                if (currentPage > 0) {
+                    navigateToPage(currentPage - 1);
+                }
+            };
+
+            useEffect(() => {
+                const handleKeyDown = (e) => {
+                    if (e.key === 'ArrowRight') nextPage();
+                    if (e.key === 'ArrowLeft') prevPage();
+                };
+                window.addEventListener('keydown', handleKeyDown);
+                return () => window.removeEventListener('keydown', handleKeyDown);
+            }, [currentPage]);
+
+            const skills = {
+                technical: ['Python', 'Java', 'C', 'React.js', 'JavaScript', 'HTML/CSS', 'SQL', 'Docker'],
+                dataScience: ['Pandas', 'NumPy', 'Matplotlib', 'Jupyter Notebook', 'Machine Learning'],
+                tools: ['JIRA', 'PowerBI', 'GitHub', 'Eclipse IDE', 'Adobe Photoshop']
+            };
+
+            const experiences = [
+                {
+                    title: 'UI/UX Designer Intern',
+                    company: 'Mita IT Automations',
+                    period: '07/2025 – 07/2025',
+                    description: 'Designed with Adobe Photoshop, developed frontend using HTML, CSS, JavaScript, and Bootstrap',
+                    color: 'from-purple-500 to-pink-500'
+                },
+                {
+                    title: 'Front End Developer Intern',
+                    company: 'MicroIT Solutions',
+                    period: '05/2025 – 06/2025',
+                    description: 'Implemented supervised learning models and worked with Support Vector Machines (SVMs)',
+                    color: 'from-blue-500 to-cyan-500'
+                },
+                {
+                    title: 'Data Science Intern',
+                    company: 'Prodigy Infotech',
+                    period: '08/2024 – 08/2024',
+                    description: 'Developed predictive models and conducted exploratory data analysis on large datasets',
+                    color: 'from-emerald-500 to-teal-500'
+                }
+            ];
+
+            const projects = [
+                {
+                    title: 'AI-Powered Grocery Assistant',
+                    description: 'An AI assistant for visually impaired users to shop independently using smartphone camera for item detection and recognition.',
+                    tech: ['Python', 'Machine Learning', 'Computer Vision'],
+                    gradient: 'from-violet-600 to-indigo-600'
+                },
+                {
+                    title: 'Hotel Management System',
+                    description: 'Java Swing application built in Eclipse IDE to streamline hotel operations including check-in/out, booking, billing, room availability, staff management, and report generation.',
+                    tech: ['Java', 'Swing', 'Eclipse IDE'],
+                    gradient: 'from-orange-500 to-red-500'
+                },
+                {
+                    title: 'Restaurant Management System',
+                    description: 'Comprehensive web-based application using HTML, CSS, PHP, and MySQL running on XAMPP. Automates menu display, food ordering, customization, billing, customer feedback, and staff management.',
+                    tech: ['HTML', 'CSS', 'PHP', 'MySQL', 'XAMPP'],
+                    gradient: 'from-emerald-500 to-teal-500'
+                }
+            ];
+
+            return (
+                <div className="h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+                    {/* Navigation Bar */}
+                    <nav className="fixed top-0 w-full z-50 bg-slate-900/95 backdrop-blur-md shadow-lg">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between items-center h-16">
+                                <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                    Abinaya M
+                                </div>
+                                
+                                {/* Desktop Menu */}
+                                <div className="hidden md:flex space-x-8">
+                                    {pages.map((page, index) => (
+                                        <button
+                                            key={page}
+                                            onClick={() => navigateToPage(index)}
+                                            className={`capitalize hover:text-purple-400 transition-colors ${currentPage === index ? 'text-purple-400 font-semibold' : ''}`}
+                                        >
+                                            {page}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* Mobile Menu Button */}
+                                <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                                    {isMenuOpen ? <X /> : <Menu />}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Mobile Menu */}
+                        {isMenuOpen && (
+                            <div className="md:hidden bg-slate-900/95 backdrop-blur-md">
+                                <div className="px-2 pt-2 pb-3 space-y-1">
+                                    {pages.map((page, index) => (
+                                        <button
+                                            key={page}
+                                            onClick={() => navigateToPage(index)}
+                                            className={`block w-full text-left px-3 py-2 capitalize hover:bg-purple-900/50 rounded-md ${currentPage === index ? 'bg-purple-900/50 text-purple-400' : ''}`}
+                                        >
+                                            {page}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </nav>
+
+                    {/* Page Content */}
+                    <div className={`h-full pt-16 transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+                        {/* Home Page */}
+                        {currentPage === 0 && (
+                            <div className="h-full flex items-center justify-center px-4 relative overflow-hidden">
+                                <div className="absolute inset-0 overflow-hidden">
+                                    <div className="absolute w-96 h-96 bg-purple-500/30 rounded-full blur-3xl top-20 left-20 animate-pulse"></div>
+                                    <div className="absolute w-96 h-96 bg-pink-500/30 rounded-full blur-3xl bottom-20 right-20 animate-pulse" style={{animationDelay: '1s'}}></div>
+                                </div>
+                                
+                                <div className="max-w-4xl text-center relative z-10">
+                                    <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                                        Hi, I'm Abinaya M
+                                    </h1>
+                                    <p className="text-xl md:text-2xl text-gray-300 mb-8">
+                                        Data Science Enthusiast | Front-End Developer | UI/UX Designer
+                                    </p>
+                                    <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
+                                        Passionate about leveraging technology to solve real-world problems through data-driven insights and intuitive user experiences
+                                    </p>
+                                    <div className="flex flex-wrap justify-center gap-4">
+                                        <button 
+                                            onClick={() => navigateToPage(3)}
+                                            className="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all transform hover:scale-105"
+                                        >
+                                            View My Work
+                                        </button>
+                                        <button 
+                                            onClick={() => navigateToPage(4)}
+                                            className="px-8 py-3 border-2 border-purple-400 rounded-full font-semibold hover:bg-purple-400/20 transition-all"
+                                        >
+                                            Get In Touch
+                                        </button>
+                                    </div>
+                                    <div className="mt-12 animate-bounce">
+                                        <ChevronDown />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* About Page */}
+                        {currentPage === 1 && (
+                            <div className="h-full overflow-y-auto px-4 py-8">
+                                <div className="max-w-6xl mx-auto">
+                                    <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                        About Me
+                                    </h2>
+                                    
+                                    <div className="grid md:grid-cols-1 gap-8 mb-12">
+                                        <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-8 border border-purple-500/20 hover:border-purple-500/40 transition-all transform hover:scale-105">
+                                            <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                                                <GraduationCap />
+                                                <span className="text-purple-400">Education</span>
+                                            </h3>
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <p className="font-semibold text-purple-300">B.E. Computer Science Engineering</p>
+                                                    <p className="text-gray-400">M Kumarasamy College of Engineering</p>
+                                                    <p className="text-sm text-gray-500">Expected 2027 | CGPA: 8.9</p>
+                                                </div>
+                                                <div>
+                                                    <p className="font-semibold text-purple-300">Higher Secondary Education</p>
+                                                    <p className="text-gray-400">Govt Girls Higher Secondary School</p>
+                                                    <p className="text-sm text-gray-500">2023 | 89%</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Skills */}
+                                    <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-8 border border-purple-500/20">
+                                        <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                                            <Code />
+                                            <span className="text-purple-400">Technical Skills</span>
+                                        </h3>
+                                        <div className="grid md:grid-cols-3 gap-6">
+                                            <div>
+                                                <h4 className="font-semibold text-purple-300 mb-3">Programming & Web</h4>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {skills.technical.map((skill) => (
+                                                        <span key={skill} className="px-3 py-1 bg-purple-500/20 rounded-full text-sm border border-purple-500/30 hover:bg-purple-500/30 transition-all">
+                                                            {skill}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-semibold text-purple-300 mb-3">Data Science</h4>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {skills.dataScience.map((skill) => (
+                                                        <span key={skill} className="px-3 py-1 bg-pink-500/20 rounded-full text-sm border border-pink-500/30 hover:bg-pink-500/30 transition-all">
+                                                            {skill}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-semibold text-purple-300 mb-3">Tools</h4>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {skills.tools.map((skill) => (
+                                                        <span key={skill} className="px-3 py-1 bg-cyan-500/20 rounded-full text-sm border border-cyan-500/30 hover:bg-cyan-500/30 transition-all">
+                                                            {skill}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Experience Page */}
+                        {currentPage === 2 && (
+                            <div className="h-full overflow-y-auto px-4 py-8">
+                                <div className="max-w-6xl mx-auto">
+                                    <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                        Professional Experience
+                                    </h2>
+                                    
+                                    <div className="space-y-6 mb-12">
+                                        {experiences.map((exp, index) => (
+                                            <div 
+                                                key={index}
+                                                className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-[1.02]"
+                                                style={{animationDelay: `${index * 0.1}s`}}
+                                            >
+                                                <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                                                    <div>
+                                                        <h3 className={`text-xl font-bold bg-gradient-to-r ${exp.color} bg-clip-text text-transparent`}>
+                                                            {exp.title}
+                                                        </h3>
+                                                        <p className="text-purple-300">{exp.company}</p>
+                                                    </div>
+                                                    <span className="text-sm text-gray-400 mt-2 md:mt-0">{exp.period}</span>
+                                                </div>
+                                                <p className="text-gray-300">{exp.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Volunteer Experience */}
+                                    <div className="mt-12">
+                                        <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                                            <Users />
+                                            <span className="text-purple-400">Leadership & Volunteering</span>
+                                        </h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                            <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105">
+                                                <h4 className="font-bold text-purple-300 mb-2">Campus Ambassador</h4>
+                                                <p className="text-sm text-cyan-400 mb-2">Unstop</p>
+                                                <p className="text-xs text-gray-400 mb-3">08/2025</p>
+                                                <p className="text-sm text-gray-300">Promoted Unstop events on campus, encouraged student engagement, and represented the brand among peers.</p>
+                                            </div>
+                                            
+                                            <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105">
+                                                <h4 className="font-bold text-purple-300 mb-2">Vice President</h4>
+                                                <p className="text-sm text-cyan-400 mb-2">IEEE Student Club</p>
+                                                <p className="text-xs text-gray-400 mb-3">09/2025</p>
+                                                <p className="text-sm text-gray-300">Enhanced collaboration and creativity among team members, resulting in a well-recognized presentation at the event.</p>
+                                            </div>
+                                            
+                                            <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105">
+                                                <h4 className="font-bold text-purple-300 mb-2">Student Ambassador</h4>
+                                                <p className="text-sm text-cyan-400 mb-2">LetsUpgrade</p>
+                                                <p className="text-xs text-gray-400 mb-3">10/2025</p>
+                                                <p className="text-sm text-gray-300">Represented LetsUpgrade at my institution and promoted its technical learning programs. Organized and encouraged participation in tech events, webinars, and upskilling challenges.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Projects Page */}
+                        {currentPage === 3 && (
+                            <div className="h-full overflow-y-auto px-4 py-8">
+                                <div className="max-w-6xl mx-auto">
+                                    <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                        Featured Projects
+                                    </h2>
+                                    
+                                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                        {projects.map((project, index) => (
+                                            <div 
+                                                key={index}
+                                                className="bg-slate-800/50 backdrop-blur-md rounded-2xl overflow-hidden border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-[1.05] group"
+                                            >
+                                                <div className={`h-2 bg-gradient-to-r ${project.gradient}`}></div>
+                                                <div className="p-6">
+                                                    <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-400 transition-colors">
+                                                        {project.title}
+                                                    </h3>
+                                                    <p className="text-gray-300 mb-4">{project.description}</p>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {project.tech.map((tech) => (
+                                                            <span key={tech} className="px-3 py-1 bg-purple-500/20 rounded-full text-xs border border-purple-500/30">
+                                                                {tech}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Contact Page */}
+                        {currentPage === 4 && (
+                            <div className="h-full flex items-center justify-center px-4">
+                                <div className="max-w-4xl w-full text-center">
+                                    <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                        Let's Connect
+                                    </h2>
+                                    <p className="text-xl text-gray-300 mb-12">
+                                        I'm always open to discussing new projects, creative ideas, or opportunities
+                                    </p>
+                                    
+                                    <div className="grid md:grid-cols-2 gap-6 mb-12">
+                                        <a 
+                                            href="mailto:abinayamahendran2006@gmail.com"
+                                            className="flex items-center justify-center gap-3 bg-slate-800/50 backdrop-blur-md rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105"
+                                        >
+                                            <Mail />
+                                            <span className="text-sm md:text-base">abinayamahendran2006@gmail.com</span>
+                                        </a>
+                                        <a 
+                                            href="tel:8148401544"
+                                            className="flex items-center justify-center gap-3 bg-slate-800/50 backdrop-blur-md rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105"
+                                        >
+                                            <Phone />
+                                            <span>8148401544</span>
+                                        </a>
+                                    </div>
+
+                                    <div className="flex justify-center gap-6 mb-6">
+                                        <a 
+                                            href="https://linkedin.com/in/abinaya-mahendran"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-4 bg-slate-800/50 backdrop-blur-md rounded-full border border-purple-500/20 hover:border-purple-500/40 hover:bg-purple-500/20 transition-all hover:transform hover:scale-110"
+                                        >
+                                            <Linkedin />
+                                        </a>
+                                        <a 
+                                            href="https://github.com/abinaya-mahendran123"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-4 bg-slate-800/50 backdrop-blur-md rounded-full border border-purple-500/20 hover:border-purple-500/40 hover:bg-purple-500/20 transition-all hover:transform hover:scale-110"
+                                        >
+                                            <Github />
+                                        </a>
+                                        <div className="p-4 bg-slate-800/50 backdrop-blur-md rounded-full border border-purple-500/20">
+                                            <MapPin />
+                                        </div>
+                                    </div>
+                                    <p className="text-gray-400">Namakkal, Tamil Nadu</p>
+
+                                    <div className="mt-12 text-gray-500 text-sm">
+                                        <p>© 2025 Abinaya M. Crafted with passion and code.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                    <div>
-                      <p className="font-semibold text-purple-300">Higher Secondary Education</p>
-                      <p className="text-gray-400">Govt Girls Higher Secondary School</p>
-                      <p className="text-sm text-gray-500">2023 | 89%</p>
+
+                    {/* Navigation Controls */}
+                    <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
+                        <div className="flex items-center gap-4 bg-slate-900/95 backdrop-blur-md px-6 py-3 rounded-full border border-purple-500/30 shadow-lg">
+                            <button
+                                onClick={prevPage}
+                                disabled={currentPage === 0}
+                                className={`p-2 rounded-full transition-all ${currentPage === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-purple-500/20 hover:scale-110'}`}
+                            >
+                                <ChevronLeft />
+                            </button>
+                            
+                            <div className="flex gap-2">
+                                {pages.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => navigateToPage(index)}
+                                        className={`w-2 h-2 rounded-full transition-all ${currentPage === index ? 'bg-purple-400 w-8' : 'bg-gray-600 hover:bg-gray-500'}`}
+                                    />
+                                ))}
+                            </div>
+                            
+                            <button
+                                onClick={nextPage}
+                                disabled={currentPage === pages.length - 1}
+                                className={`p-2 rounded-full transition-all ${currentPage === pages.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-purple-500/20 hover:scale-110'}`}
+                            >
+                                <ChevronRight />
+                            </button>
+                        </div>
                     </div>
-                  </div>
+
+                    {/* Page Indicator */}
+                    <div className="fixed bottom-8 right-8 z-40 bg-slate-900/95 backdrop-blur-md px-4 py-2 rounded-full border border-purple-500/30 text-sm">
+                        <span className="text-purple-400 font-semibold">{currentPage + 1}</span>
+                        <span className="text-gray-500"> / {pages.length}</span>
+                    </div>
                 </div>
-              </div>
+            );
+        };
 
-              {/* Skills */}
-              <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-8 border border-purple-500/20">
-                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  <Code className="text-purple-400" />
-                  Technical Skills
-                </h3>
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div>
-                    <h4 className="font-semibold text-purple-300 mb-3">Programming & Web</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {skills.technical.map((skill) => (
-                        <span key={skill} className="px-3 py-1 bg-purple-500/20 rounded-full text-sm border border-purple-500/30 hover:bg-purple-500/30 transition-all">
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-purple-300 mb-3">Data Science</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {skills.dataScience.map((skill) => (
-                        <span key={skill} className="px-3 py-1 bg-pink-500/20 rounded-full text-sm border border-pink-500/30 hover:bg-pink-500/30 transition-all">
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-purple-300 mb-3">Tools</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {skills.tools.map((skill) => (
-                        <span key={skill} className="px-3 py-1 bg-cyan-500/20 rounded-full text-sm border border-cyan-500/30 hover:bg-cyan-500/30 transition-all">
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Experience Page */}
-        {currentPage === 2 && (
-          <div className="h-full overflow-y-auto px-4 py-8">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Professional Experience
-              </h2>
-              
-              <div className="space-y-6 mb-12">
-                {experiences.map((exp, index) => (
-                  <div 
-                    key={index}
-                    className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-[1.02]"
-                    style={{animationDelay: `${index * 0.1}s`}}
-                  >
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                      <div>
-                        <h3 className={`text-xl font-bold bg-gradient-to-r ${exp.color} bg-clip-text text-transparent`}>
-                          {exp.title}
-                        </h3>
-                        <p className="text-purple-300">{exp.company}</p>
-                      </div>
-                      <span className="text-sm text-gray-400 mt-2 md:mt-0">{exp.period}</span>
-                    </div>
-                    <p className="text-gray-300">{exp.description}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Volunteer Experience */}
-              <div>
-                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  <Users className="text-purple-400" />
-                  Leadership & Volunteering
-                </h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105">
-                    <h4 className="font-bold text-purple-300 mb-2">Vice President - IEEE Student Club</h4>
-                    <p className="text-sm text-gray-400 mb-2">09/2025</p>
-                    <p className="text-gray-300">Enhanced collaboration and creativity among team members, resulting in recognized presentations</p>
-                  </div>
-                  <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105">
-                    <h4 className="font-bold text-purple-300 mb-2">Campus Ambassador - Unstop</h4>
-                    <p className="text-sm text-gray-400 mb-2">08/2025</p>
-                    <p className="text-gray-300">Promoted campus events and encouraged student engagement</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Projects Page */}
-        {currentPage === 3 && (
-          <div className="h-full overflow-y-auto px-4 py-8">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Featured Projects
-              </h2>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {projects.map((project, index) => (
-                  <div 
-                    key={index}
-                    className="bg-slate-800/50 backdrop-blur-md rounded-2xl overflow-hidden border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-[1.05] group"
-                  >
-                    <div className={`h-2 bg-gradient-to-r ${project.gradient}`}></div>
-                    <div className="p-6">
-                      <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-400 transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-gray-300 mb-4">{project.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.map((tech) => (
-                          <span key={tech} className="px-3 py-1 bg-purple-500/20 rounded-full text-xs border border-purple-500/30">
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Contact Page */}
-        {currentPage === 4 && (
-          <div className="h-full flex items-center justify-center px-4">
-            <div className="max-w-4xl w-full text-center">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Let's Connect
-              </h2>
-              <p className="text-xl text-gray-300 mb-12">
-                I'm always open to discussing new projects, creative ideas, or opportunities
-              </p>
-              
-              <div className="grid md:grid-cols-2 gap-6 mb-12">
-                <a 
-                  href="mailto:abinayamahendran2006@gmail.com"
-                  className="flex items-center justify-center gap-3 bg-slate-800/50 backdrop-blur-md rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105"
-                >
-                  <Mail className="text-purple-400" />
-                  <span className="text-sm md:text-base">abinayamahendran2006@gmail.com</span>
-                </a>
-                <a 
-                  href="tel:8148401544"
-                  className="flex items-center justify-center gap-3 bg-slate-800/50 backdrop-blur-md rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105"
-                >
-                  <Phone className="text-purple-400" />
-                  <span>8148401544</span>
-                </a>
-              </div>
-
-              <div className="flex justify-center gap-6 mb-6">
-                <a 
-                  href="https://linkedin.com/in/abinaya-mahendran"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-4 bg-slate-800/50 backdrop-blur-md rounded-full border border-purple-500/20 hover:border-purple-500/40 hover:bg-purple-500/20 transition-all hover:transform hover:scale-110"
-                >
-                  <Linkedin size={24} />
-                </a>
-                <a 
-                  href="https://github.com/abinaya-mahendran123"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-4 bg-slate-800/50 backdrop-blur-md rounded-full border border-purple-500/20 hover:border-purple-500/40 hover:bg-purple-500/20 transition-all hover:transform hover:scale-110"
-                >
-                  <Github size={24} />
-                </a>
-                <div className="p-4 bg-slate-800/50 backdrop-blur-md rounded-full border border-purple-500/20">
-                  <MapPin size={24} className="text-purple-400" />
-                </div>
-              </div>
-              <p className="text-gray-400">Namakkal, Tamil Nadu</p>
-
-              <div className="mt-12 text-gray-500 text-sm">
-                <p>© 2025 Abinaya M. Crafted with passion and code.</p>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Navigation Controls */}
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
-        <div className="flex items-center gap-4 bg-slate-900/95 backdrop-blur-md px-6 py-3 rounded-full border border-purple-500/30 shadow-lg">
-          <button
-            onClick={prevPage}
-            disabled={currentPage === 0}
-            className={`p-2 rounded-full transition-all ${currentPage === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-purple-500/20 hover:scale-110'}`}
-          >
-            <ChevronLeft size={20} />
-          </button>
-          
-          <div className="flex gap-2">
-            {pages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => navigateToPage(index)}
-                className={`w-2 h-2 rounded-full transition-all ${currentPage === index ? 'bg-purple-400 w-8' : 'bg-gray-600 hover:bg-gray-500'}`}
-              />
-            ))}
-          </div>
-          
-          <button
-            onClick={nextPage}
-            disabled={currentPage === pages.length - 1}
-            className={`p-2 rounded-full transition-all ${currentPage === pages.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-purple-500/20 hover:scale-110'}`}
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
-      </div>
-
-      {/* Page Indicator */}
-      <div className="fixed bottom-8 right-8 z-40 bg-slate-900/95 backdrop-blur-md px-4 py-2 rounded-full border border-purple-500/30 text-sm">
-        <span className="text-purple-400 font-semibold">{currentPage + 1}</span>
-        <span className="text-gray-500"> / {pages.length}</span>
-      </div>
-    </div>
-  );
-};
-
-export default Portfolio;
+        ReactDOM.render(<Portfolio />, document.getElementById('root'));
     </script>
 </body>
 </html>
